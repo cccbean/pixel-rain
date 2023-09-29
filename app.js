@@ -7,6 +7,8 @@ const ctx = canvas.getContext('2d');
 const image1 = new Image();
 image1.src = './assets/Luffy-pic-2.png';
 
+let hasColor = false;
+
 image1.addEventListener('load', () => {
   ctx.drawImage(image1, 0, 0);
   const scannedImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -72,7 +74,12 @@ image1.addEventListener('load', () => {
       const rgb = mappedImage[this.positionY][this.positionX][1];
 
       ctx.beginPath();
-      ctx.fillStyle = rgb;
+
+      if (hasColor) {
+        ctx.fillStyle = rgb;
+      } else {
+        ctx.fillStyle = 'white';
+      }
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
     }
@@ -132,3 +139,15 @@ image2.addEventListener('load', () => {
   changeGrayscale();
   ctx2.putImageData(scannedImage, 0, 0);
 })
+
+const grayBtn = document.getElementById('grayscale');
+
+grayBtn.addEventListener('click', () => {
+  hasColor = false;
+});
+
+const colorBtn = document.getElementById('color');
+
+colorBtn.addEventListener('click', () => {
+  hasColor = true;
+});
